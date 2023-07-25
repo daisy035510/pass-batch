@@ -1,0 +1,8 @@
+# -d -> 백그라운드 실행. --force-recreate -> 강제 재생성(docker 설정파일 수정했다면 재생성해야함)
+db-up:
+    docker-compose up -d --force-recreate
+
+# down -> container를 정지하고 삭제까지 처리함
+# -v -> volume 삭제
+db-down:
+    docker-compose down -v

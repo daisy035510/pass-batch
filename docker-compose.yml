@@ -1,0 +1,18 @@
+version: "3.8" # 버전 지정
+
+services: # 컨테이너 설정
+  mysql: #원래는 db
+    container_name: mysql_local # container 이름
+    image: mysql:8.0.30 # 컨테이너에서 사용하는 base image 지정
+    volumes: # docker container는 꺼질 때 data도 함께 사라지는데, 데이터를 유지하기 위한 부분
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/initdb.d:/docker-entrypoint-initdb.d # 컨테이너 올라올 때 쿼리문 실행됨, 파일명이 알파벳 순서로 실행되니 조심
+    #restart: always # 컨테이너 다운 시 재시작하라는 명령어
+    ports: # -p 옵션과 동일
+      - "3306:3306"
+    environment: # 컨테이너 안의 환경변수 설정
+      - MYSQL_DATABASE=pass_local
+      - MYSQL_USER=pass_local_user
+      - MYSQL_PASSWORD=passlocal123
+      - MYSQL_ROOT_PASSWORD=passlocal123
+      - TZ=Asia/Seoul
