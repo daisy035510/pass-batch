@@ -20,7 +20,9 @@ public class PassEntity {
     private int  passSeq;
     private int packageSeq;
     private String userId;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private PassStatus status;
     private int remainingCount;
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;

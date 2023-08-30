@@ -22,7 +22,7 @@ public class BookingEntity extends BaseEntity {
     private int passSeq;
     private String userId;
 
-    private String status; // to-do : enum으로 관리
+    private BookingStatus status;
     private boolean usedPass;
     private boolean attended;
 
