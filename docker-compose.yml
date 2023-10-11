@@ -1,0 +1,22 @@
+# Use root/example as user/password credentials
+version: '3.8' #docker compose version
+
+services:
+  mysql: #서비스 이름 적는 곳
+    container_name: mysql_local #컨테이너 이름
+    image: mysql:8.0.30 #version 명시
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    # command: --default-authentication-plugin=mysql_native_password # 인증 plugin 따로 명시할 예정
+    volumes: # host와 container를 연결해주는게 volume !!! 알파벳 순서로 실행되기 때문에 create 문이 먼저 실행되도록 설정해야함
+      - ./db/conf.d:/etc/mysql/conf.d #host와 local 설정 파일을 연결
+      - ./db/initdb.d:/docker-entrypoint-create_table.sql #host와 local 설정 파일을 연결
+    ports:
+      - "3306:3306"
+    #restart: always
+  environment: # 환경 변수
+    - MYSQL_DATABASE=pass_local
+    - MYSQL_USER=pass_local_user
+    - MYSQL_PASSWORD=passlocal123
+    - MYSQL_ROOT_PASSWORD=passlocal123
+    - TZ=Asia/Seoul
