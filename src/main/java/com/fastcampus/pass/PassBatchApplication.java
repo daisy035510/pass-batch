@@ -1,4 +1,4 @@
-package com.example.passbatch;
+package com.fastcampus.pass;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

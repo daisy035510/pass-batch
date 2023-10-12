@@ -14,9 +14,9 @@ services:
     ports:
       - "3306:3306"
     #restart: always
-  environment: # 환경 변수
-    - MYSQL_DATABASE=pass_local
-    - MYSQL_USER=pass_local_user
-    - MYSQL_PASSWORD=passlocal123
-    - MYSQL_ROOT_PASSWORD=passlocal123
-    - TZ=Asia/Seoul
+    environment: # 환경 변수
+      - MYSQL_DATABASE=pass_local
+      - MYSQL_USER=pass_local_user
+      - MYSQL_PASSWORD=passlocal123
+      - MYSQL_ROOT_PASSWORD=passlocal123
+      - TZ=Asia/Seoul
