@@ -5,14 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "package")
-public class PackageEntity extends BaseEntity {
+public class PackageEntity  extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +22,4 @@ public class PackageEntity extends BaseEntity {
     private String packageName;
     private Integer count;
     private Integer period;
-
 }
