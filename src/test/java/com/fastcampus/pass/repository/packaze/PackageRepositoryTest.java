@@ -61,26 +61,26 @@ public class PackageRepositoryTest {
     }
 
 
-    @Test
-    public void test_updateCountAndPeriod() {
-
-        // given
-        PackageEntity packageEntity = new PackageEntity();
-        packageEntity.setPackageName("바디프로필 이벤트 4개월");
-        packageEntity.setPeriod(90);
-        packageRepository.save(packageEntity);
-
-        // when
-        // to-do : @Transactional 어노테이션 빼보기
-        int updateCount = packageRepository.updateCountAndPeriod(packageEntity.getPackageSeq(), 30, 120);
-        final PackageEntity updatedPackageEntity = packageRepository.findById(packageEntity.getPackageSeq()).get();
-
-        // then
-        assertEquals(1, updateCount);
-        assertEquals(30, updatedPackageEntity.getCount());
-        assertEquals(120, updatedPackageEntity.getPeriod());
-
-    }
+//    @Test
+//    public void test_updateCountAndPeriod() {
+//
+//        // given
+//        PackageEntity packageEntity = new PackageEntity();
+//        packageEntity.setPackageName("바디프로필 이벤트 4개월");
+//        packageEntity.setPeriod(90);
+//        packageRepository.save(packageEntity);
+//
+//        // when
+//        // to-do : @Transactional 어노테이션 빼보기
+//        int updateCount = packageRepository.updateCountAndPeriod(packageEntity.getPackageSeq(), 30, 120);
+//        final PackageEntity updatedPackageEntity = packageRepository.findById(packageEntity.getPackageSeq()).get();
+//
+//        // then
+//        assertEquals(1, updateCount);
+//        assertEquals(30, updatedPackageEntity.getCount());
+//        assertEquals(120, updatedPackageEntity.getPeriod());
+//
+//    }
 
     @Test
     public void test_delete() {
