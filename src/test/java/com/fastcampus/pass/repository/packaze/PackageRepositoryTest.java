@@ -1,7 +1,7 @@
 package com.fastcampus.pass.repository.packaze;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
@@ -10,13 +10,12 @@ import org.springframework.data.domain.Sort;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @Slf4j
-@SpringBootTest  //@DataJpaTest
-public class PackageRepositoryTest {
+@SpringBootTest
+class PackageRepositoryTest {
 
     @Autowired
     PackageRepository packageRepository;
@@ -61,26 +60,26 @@ public class PackageRepositoryTest {
     }
 
 
-//    @Test
-//    public void test_updateCountAndPeriod() {
-//
-//        // given
-//        PackageEntity packageEntity = new PackageEntity();
-//        packageEntity.setPackageName("바디프로필 이벤트 4개월");
-//        packageEntity.setPeriod(90);
-//        packageRepository.save(packageEntity);
-//
-//        // when
-//        // to-do : @Transactional 어노테이션 빼보기
-//        int updateCount = packageRepository.updateCountAndPeriod(packageEntity.getPackageSeq(), 30, 120);
-//        final PackageEntity updatedPackageEntity = packageRepository.findById(packageEntity.getPackageSeq()).get();
-//
-//        // then
-//        assertEquals(1, updateCount);
-//        assertEquals(30, updatedPackageEntity.getCount());
-//        assertEquals(120, updatedPackageEntity.getPeriod());
-//
-//    }
+    @Test
+    public void test_updateCountAndPeriod() {
+
+        // given
+        PackageEntity packageEntity = new PackageEntity();
+        packageEntity.setPackageName("바디프로필 이벤트 4개월");
+        packageEntity.setPeriod(90);
+        packageRepository.save(packageEntity);
+
+        // when
+        // to-do : @Transactional 어노테이션 빼보기
+        int updateCount = packageRepository.updateCountAndPeriod(packageEntity.getPackageSeq(), 30, 120);
+        final PackageEntity updatedPackageEntity = packageRepository.findById(packageEntity.getPackageSeq()).get();
+
+        // then
+        assertEquals(1, updateCount);
+        assertEquals(30, updatedPackageEntity.getCount());
+        assertEquals(120, updatedPackageEntity.getPeriod());
+
+    }
 
     @Test
     public void test_delete() {
@@ -97,4 +96,5 @@ public class PackageRepositoryTest {
         // then
         assertTrue(packageRepository.findById(packageEntity1.getPackageSeq()).isEmpty());
     }
+
 }
