@@ -1,14 +1,14 @@
 package com.fastcampus.pass.repository.pass;
 
 import com.fastcampus.pass.repository.BaseEntity;
+import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Data
+@Table(name = "pass")
 public class PassEntity extends BaseEntity {
 
     @Id
@@ -16,9 +16,9 @@ public class PassEntity extends BaseEntity {
     private int passSeq;
     private int packageSeq;
     private String userId;
-    private String status;
+    private PassStatus status;
     private int remainingCount;
-    private Date startedAt;
-    private Date endedAt;
-    private Date expiredAt;
+    private LocalDateTime startedAt;
+    private LocalDateTime  endedAt;
+    private LocalDateTime  expiredAt;
 }

@@ -5,6 +5,7 @@ import com.fastcampus.pass.repository.BaseEntity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "booking")
 public class BookingEntity extends BaseEntity {
 
     @Id

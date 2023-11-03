@@ -4,8 +4,10 @@ import com.fastcampus.pass.repository.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "user")
 public class UserEntity extends BaseEntity {
 
     @Id
