@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: pass-batch
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/pass_local?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: pass_local_user
+    password: passlocal123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20 # default는 10
+
+  # batch 관련 기본 테이블 생성
+  batch:
+    jdbc:
+      initialize-schema: always
