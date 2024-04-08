@@ -1,9 +1,20 @@
 package com.fastcampus.pass.repository.pass;
 
-import com.fastcampus.pass.repository.packaze.PackageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
-@Repository
+import javax.transaction.Transactional;
+
+
 public interface PassRepository extends JpaRepository<PassEntity, Integer> {
+
+    // JPQL
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE PassEntity p" +
+            "       SET p.remainingCount = :remainingCount, " +
+            "           p.modifiedAt = CURRENT_TIMESTAMP " +
+            "     WHERE p.passSeq = :passSeq")
+    int updateRemainingCount(Integer passSeq, Integer remainingCount);
 }

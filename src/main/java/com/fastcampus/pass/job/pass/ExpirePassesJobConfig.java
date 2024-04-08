@@ -76,10 +76,6 @@ public class ExpirePassesJobConfig {
 
     @Bean
     public ItemProcessor<PassEntity, PassEntity> expirePassesItemProcessor() {
-        /**
-         * TO-DO
-         * 어떤 함수지??
-         */
         return passEntity -> {
             passEntity.setStatus(PassStatus.EXPIRED);
             passEntity.setExpiredAt(LocalDateTime.now());

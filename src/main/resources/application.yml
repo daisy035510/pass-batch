@@ -13,3 +13,9 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+
+
+
+  kakaotalk:
+    host: https://kapi.kakao.com
+    token: f92a02f4a393f8ff0b061c1f93dd90fb
