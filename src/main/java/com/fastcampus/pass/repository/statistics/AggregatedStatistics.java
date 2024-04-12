@@ -20,8 +20,8 @@ public class AggregatedStatistics {
     private long cancelledCount;
 
     public void merge(final AggregatedStatistics statistics) {
-        this.allCount = statistics.getAllCount();
-        this.attendedCount = statistics.getAttendedCount();
-        this.cancelledCount = statistics.getCancelledCount();
+        this.allCount += statistics.getAllCount();
+        this.attendedCount += statistics.getAttendedCount();
+        this.cancelledCount += statistics.getCancelledCount();
     }
 }
