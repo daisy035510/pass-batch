@@ -4,16 +4,20 @@ import com.fastcampus.pass.repository.booking.BookingEntity;
 import com.fastcampus.pass.repository.statistics.StatisticsEntity;
 import com.fastcampus.pass.repository.statistics.StatisticsRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.job.builder.FlowBuilder;
+import org.springframework.batch.core.job.flow.Flow;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaCursorItemReader;
 import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDateTime;
@@ -42,6 +46,43 @@ public class MakeStatisticsJobConfig {
         this.makeDailyStatisticsTasklet = makeDailyStatisticsTasklet;
         this.makeWeekilyStatisticsTasklet = makeWeekilyStatisticsTasklet;
     }
+
+
+    @Bean
+    public Job makeStatisticsJob() {
+
+        Flow addSatisticsFlow = new FlowBuilder<Flow>("addSatisticsFlow")
+                .start(addSatisticsStep())
+                .build();
+
+        Flow makeDailyStatisticsFlow = new FlowBuilder<Flow>("makeDailyStatisticsFlow")
+                .start(makeDailyStatisticsStep())
+                .build();
+
+
+        Flow makeWeeklyStatisticsFlow = new FlowBuilder<Flow>("makeWeeklyStatisticsFlow")
+                .start(makeWeeklyStatisticsStep())
+                .build();
+
+        /**
+         * 병렬로 처리
+         */
+        Flow parallelStatisticsFlow = new FlowBuilder<Flow>("parallelStatisticsFlow")
+                .split(new SimpleAsyncTaskExecutor())
+                .add(makeDailyStatisticsFlow, makeWeeklyStatisticsFlow)
+                .build();
+
+        /**
+         * start(addSatisticsFlow) 첫번째로 실행된 다음
+         * 두번째로 next(parallelStatisticsFlow) 가 병렬로 처리됨을 확인
+         */
+        return this.jobBuilderFactory.get("makeStatisticsJob")
+                .start(addSatisticsFlow)
+                .next(parallelStatisticsFlow)
+                .build()    // Flow Job Builder
+                .build();
+    }
+
 
     @Bean
     public Step addSatisticsStep() {
@@ -97,7 +138,7 @@ public class MakeStatisticsJobConfig {
 
         return this.stepBuilderFactory.get("makeDailyStatisticsStep")
                 .tasklet(makeWeekilyStatisticsTasklet)
-                .buil();
+                .build();
     }
 
     /**
@@ -109,7 +150,7 @@ public class MakeStatisticsJobConfig {
 
         return this.stepBuilderFactory.get("makeDailyStatisticsStep")
                 .tasklet(makeDailyStatisticsTasklet)
-                .buil();
+                .build();
     }
 
 

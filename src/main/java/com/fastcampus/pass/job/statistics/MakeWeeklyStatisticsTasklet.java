@@ -2,6 +2,7 @@ package com.fastcampus.pass.job.statistics;
 
 import com.fastcampus.pass.repository.statistics.AggregatedStatistics;
 import com.fastcampus.pass.repository.statistics.StatisticsRepository;
+import com.fastcampus.pass.util.CustomCSVWriter;
 import com.fastcampus.pass.util.LocalDateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +47,30 @@ public class MakeWeeklyStatisticsTasklet implements Tasklet {
         final List<AggregatedStatistics> statisticsList = statisticsRepository.findByStatisticsAtBetweenAndGroupBy(from, to);
         Map<Integer, AggregatedStatistics> weeklyStatisticsEntityMap = new LinkedHashMap<>();
 
-        for(AggregatedStatistics statistics ; statisticsList) {
+        for(AggregatedStatistics statistics : statisticsList) {
+
             int week = LocalDateTimeUtils.getWeekOfYear(statistics.getStatisticsAt());
+            AggregatedStatistics savedSatisticsEntity = weeklyStatisticsEntityMap.get(week);
+
+            if(savedSatisticsEntity == null) {
+                weeklyStatisticsEntityMap.put(week, statistics);
+            } else {
+                savedSatisticsEntity.merge(statistics);
+            }
         }
 
+        List<String[]> data = new ArrayList<>();
+        data.add(new String[]{"week", "allCount", "attendedCount", "cancelledCount"});
+        weeklyStatisticsEntityMap.forEach((week, statistics) -> {
+            data.add(new String[]{
+                    "Week" + week,
+                    String.valueOf(statistics.getAllCount()),
+                    String.valueOf(statistics.getAttendedCount()),
+                    String.valueOf(statistics.getCancelledCount())
+            });
+        });
+
+        CustomCSVWriter.write("weekly_statistics_" + LocalDateTimeUtils.format(from, LocalDateTimeUtils.YYYY_MM_DD) + ".csv", data);
 
         return RepeatStatus.FINISHED;
     }
