@@ -4,7 +4,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-04-03T17:19:14+0900",
+    date = "2024-04-16T18:47:06+0900",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 18.0.2 (Amazon.com Inc.)"
 )
 public class PassModelMapperImpl implements PassModelMapper {
@@ -19,8 +19,12 @@ public class PassModelMapperImpl implements PassModelMapper {
 
         if ( bulkPassEntity != null ) {
             passEntity.setStatus( status( bulkPassEntity.getStatus() ) );
-            passEntity.setRemainingCount( bulkPassEntity.getCount() );
-            passEntity.setPackageSeq( bulkPassEntity.getPackageSeq() );
+            if ( bulkPassEntity.getCount() != null ) {
+                passEntity.setRemainingCount( bulkPassEntity.getCount() );
+            }
+            if ( bulkPassEntity.getPackageSeq() != null ) {
+                passEntity.setPackageSeq( bulkPassEntity.getPackageSeq() );
+            }
             passEntity.setStartedAt( bulkPassEntity.getStartedAt() );
             passEntity.setEndedAt( bulkPassEntity.getEndedAt() );
         }
